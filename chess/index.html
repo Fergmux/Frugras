@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<title>Chess</title>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="Dungeons, Dragons, Dice, Free">
+	<meta name="description" content="A free dungeons and dragons dice rolling applet">
+	<meta name="author" content="Fergus Mullineux">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="libs/jquery.color-2.1.2.js"></script>
+	<script src="js/scripts.js"></script>
+	<body>
+		<button onclick='setUp("white")'>White</button>
+		<button onclick='setUp("black")'>Black</button>
+		<table class="board">
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>1</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>2</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>3</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>4</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>5</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>6</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>7</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>8</td>
+			</tr>
+			<tr>
+				<td>a</td> <td>b</td> <td>c</td> <td>d</td> <td>e</td> <td>f</td> <td>g</td> <td>h</td> <td></td>
+			</tr>
+		</table>
+		Enter <span id="whatColor">white's</span> move:
+		<input type='text' id='input' name="move"><button onclick='checkSubmit()'>Submit</button>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+

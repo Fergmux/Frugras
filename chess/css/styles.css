@@ -1,0 +1,20 @@
+@font-face { font-family: Ringbearer; font-weight: bold; src: url("../fonts/ringbearer.medium.ttf");}
+td {
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	background-color: #90c3d4;
+}
+
+tr:nth-child(odd) td:nth-child(even) {
+	background-color: #4ba6c4;
+}
+tr:nth-child(even) td:nth-child(odd) {
+	background-color: #4ba6c4;
+}
+table.board tr:last-child td {
+	background-color: #ffffff;
+}
+table.board tr td:last-child {
+	background-color: #ffffff;
+}
