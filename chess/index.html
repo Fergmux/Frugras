@@ -12,7 +12,8 @@
 	<body>
 		<button onclick='setUp("white")'>White</button>
 		<button onclick='setUp("black")'>Black</button>
-		<table class="board">
+		<button onclick='flip()'>Flip</button>
+		<table id="first" class="board board1">
 			<tr>
 				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>1</td>
 			</tr>
@@ -39,6 +40,35 @@
 			</tr>
 			<tr>
 				<td>a</td> <td>b</td> <td>c</td> <td>d</td> <td>e</td> <td>f</td> <td>g</td> <td>h</td> <td></td>
+			</tr>
+		</table>
+		<table id="second" class="board board2">
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>8</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>7</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>6</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>5</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>4</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>3</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>2</td>
+			</tr>
+			<tr>
+				<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td>1</td>
+			</tr>
+			<tr>
+				<td>h</td> <td>g</td> <td>f</td> <td>e</td> <td>d</td> <td>c</td> <td>b</td> <td>a</td> <td></td>
 			</tr>
 		</table>
 		Enter <span id="whatColor">white's</span> move:

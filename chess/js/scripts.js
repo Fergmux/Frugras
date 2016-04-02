@@ -1,11 +1,16 @@
 $(document).ready(function () {
-
+	$('#second').hide();
 })
 
 var you = 1;
 var turn = true;
 var rank = ['a','b','c','d','e','f','g','h'];
 var multipleMsg = 'There are multiple pieces that can make that move';
+var noMoveMsg = "None of your pieces can make that move";
+var white = -1;
+var whiteTurn = true;
+var yourColor = '';
+var theirColor = '';
 
 // initialise the board with starting positions
 function setUp(color) {
@@ -21,33 +26,33 @@ function setUp(color) {
 	var backRow = ['R','N','B','Q','K','B','N','R'];
 	var pawn = 'p';
 	// loop through squares on a rank
-	for (var i = 0; i < 8; i++) {
-		var j = i+1;
-		//to select the right position in a table
-		var row1 = 'table tr:nth-child('+1+') td:nth-child('+j+')';
-		var row2 = 'table tr:nth-child('+2+') td:nth-child('+j+')';
-		var for7 = 'table tr:nth-child('+7+') td:nth-child('+j+')';
-		var row8 = 'table tr:nth-child('+8+') td:nth-child('+j+')';
+	for (var i = 1; i <= 8; i++) {
+		// to select the right position in a table
+		var row1 = 'table tr:nth-child('+1+') td:nth-child('+i+')';
+		var row2 = 'table tr:nth-child('+2+') td:nth-child('+i+')';
+		var for7 = 'table tr:nth-child('+7+') td:nth-child('+i+')';
+		var row8 = 'table tr:nth-child('+8+') td:nth-child('+i+')';
+		// set up the board
 		$(row2).html(pawn);
 		$(for7).html(pawn);
-		// if player clicks white, color and arrange the pieces accordingly
+		$(row1).html(backRow[8-i]);
+		$(row8).html(backRow[8-i]);
+		$(row1).css('color', '#ffffff');
+		$(row2).css('color', '#ffffff');
+		$(for7).css('color', '#000000');
+		$(row8).css('color', '#000000');
+
+		flipBoard();
+
+		//chose which board to display
 		if (color == 'white') {
-			$(row1).html(backRow[i]);
-			$(row8).html(backRow[i]);
-			$(row1).css('color', '#000000');
-			$(row2).css('color', '#000000');
-			$(for7).css('color', '#ffffff');
-			$(row8).css('color', '#ffffff');
-			turn = true;
+			$('#first').hide();	
+			$('#second').show();
 		} else {
-			$(row1).html(backRow[7-i]);
-			$(row8).html(backRow[7-i]);
-			$(row1).css('color', '#ffffff');
-			$(row2).css('color', '#ffffff');
-			$(for7).css('color', '#000000');
-			$(row8).css('color', '#000000');
-			turn = false;
-		};
+			$('#first').show();
+			$('#second').hide();
+		}
+		
 	};
 }
 
@@ -59,16 +64,7 @@ function checkSubmit() {
 	var validArray = ['a','b','c','d','e','f','g','h','1','2','3','4','5','6','7','8','R','N','B','Q','K','x'];
 	var one = move[0];
 	var two = move[1];
-
-	// change orientation of board
-	if (turn) {
-		white = 1;
-	} else {
-		white = -1;
-	};
-	console.log(white)
-	console.log(turn);
-
+	
 	// check move is of correct length
 	if (length < 2 || length > 5) {
 		alert(validMsg);
@@ -128,33 +124,38 @@ function numOrLet(c) {
 };
 
 var moveMsg = "That is an invalid move"
+// calculate wether or not a pawn can make a move
 function pawnMove(move) {
 	var x = move[0];
 	x = rank.indexOf(x)+1;
 	var y = Number(move[1]);
 	var from = get(x, y+white);
 	var to = get(x, y);
+	console.log(x,y,from,to);
+	// checks a pawn can move one place to the position
 	if (from === 'p' && to === '') {
 		mov(x,y+white,x,y);
 		finished();
+	// check a pawn can move two places to the positiion
 	} else if (get(x, y+2*white) === 'p' && from === '' && to === '') {
-		if (turn) { //TODO - Make turn 7/2 to shorten all this code
-			if (y+2*white == 7) {
+		// make sure piece is on the starting rank, for double move
+		if (turn) {
+			if (y+2*white == 2) {
 				mov(x,y+2*white,x,y);
 				finished();
 			} else {
-				alert(moveMsg);
+				alert(moveMsg + " fuck");
 			};
 		} else {
 			if (y+2*white == 2) {
 				mov(x,y+2*white,x,y);
 				finished();
 			} else {
-				alert(moveMsg);
-			}
+				alert(moveMsg + " fuck you");
+			};
 		};
 	} else {
-		alert(moveMsg);
+		alert(moveMsg + " fuckkk");
 	};
 };
 
@@ -199,78 +200,113 @@ function knightMove(move) {
 	x = rank.indexOf(x)+1;
 	var y = Number(move[2]);
 	var to = get(x,y);
-	var color = '';
 	var positions = [];
-	if (white == 1) {
-		color = 'rgb(255, 255, 255)';
-	} else {
-		color = 'rgb(0, 0, 0)';
-	}
+	console.log(x,y)
+	
 	// check all possible starting locations
-	if (get(x-1,y-2) == 'N' && get(x-1,y-2, 'c') == color) {
+	if (get(x-1,y-2) == 'N' && get(x-1,y-2, 'c') == yourColor) {
 		positions.push([x-1,y-2]);			
 	};
-	if (get(x+1,y-2) == 'N' && get(x+1,y-2, 'c') == color) {
+	if (get(x+1,y-2) == 'N' && get(x+1,y-2, 'c') == yourColor) {
 		positions.push([x+1,y-2]);	
 	};
-	if (get(x-1,y+2) == 'N' && get(x-1,y+2, 'c') == color) {
+	if (get(x-1,y+2) == 'N' && get(x-1,y+2, 'c') == yourColor) {
 		positions.push([x-1,y+2]);	
 	};
-	if (get(x+1,y+2) == 'N' && get(x+1,y+2, 'c') == color) {
+	if (get(x+1,y+2) == 'N' && get(x+1,y+2, 'c') == yourColor) {
 		positions.push([x+1,y+2]);	
 	};
-	if (get(x-2,y-1) == 'N' && get(x-2,y-1, 'c') == color) {
+	if (get(x-2,y-1) == 'N' && get(x-2,y-1, 'c') == yourColor) {
 		positions.push([x-2,y-1]);	
 	};
-	if (get(x+2,y-1) == 'N' && get(x+2,y-1, 'c') == color) {
+	if (get(x+2,y-1) == 'N' && get(x+2,y-1, 'c') == yourColor) {
 		positions.push([x+2,y-1]);	
 	};
-	if (get(x-1,y+1) == 'N' && get(x-1,y+1, 'c') == color) {
+	if (get(x-1,y+1) == 'N' && get(x-1,y+1, 'c') == yourColor) {
 		positions.push([x-1,y+1]);	
 	};
-	if (get(x+1,y+1) == 'N' && get(x+1,y+1, 'c') == color) {
+	if (get(x+1,y+1) == 'N' && get(x+1,y+1, 'c') == yourColor) {
 		positions.push([x+1,y+1]);	
 	};
 	console.log(positions);
-	if (positions.length > 1) {
+	// if multiple/no pieces can make the move then alert, otherwise make the move
+	if (positions.length == 0) {
+		alert(noMoveMsg);
+	} else if (positions.length > 1) {
 		alert(multipleMsg);
 	} else {
-		mov(positions[0][0],positions[0][1],x,y);
-		finished();
-	}
+		if (get(x,y) == '' || get(x,y,'c') == theirColor) {
+			mov(positions[0][0],positions[0][1],x,y);
+			finished();	
+		} else {
+			alert(noMoveMsg);
+		}
+		
+	};
 };
 
 // get the letter or color of the piece on given square
 function get(x, y, c) {
 	if (c == 'c') {
-		var yy = $('table tr:nth-child('+y+') td:nth-child('+x+')').css('color');
-		console.log(yy);
-		return yy;
+	//return the color
+		return $('table tr:nth-child('+y+') td:nth-child('+x+')').css('color');
 	} else {
-		console.log(x,y)
-		var xx = $('table tr:nth-child('+y+') td:nth-child('+x+')').html();
-		console.log(xx);
-		return xx;
+	// return the piece
+		return $('table tr:nth-child('+y+') td:nth-child('+x+')').html();
 	};
 }
 function mov(x, y, i, j) {
+	// find out what piece and color is ont he starting square
 	var piece = $('table tr:nth-child('+y+') td:nth-child('+x+')').html();
 	var color = $('table tr:nth-child('+y+') td:nth-child('+x+')').css('color');
+	// empty starting tile
+	$('table tr:nth-child('+y+') td:nth-child('+x+')').empty();
 	console.log(piece,color);
 	console.log(x,y,i,j);
+	// put the piece on new tile
 	$('table tr:nth-child('+j+') td:nth-child('+i+')').css('color', color);
 	$('table tr:nth-child('+j+') td:nth-child('+i+')').html(piece);
-	$('table tr:nth-child('+y+') td:nth-child('+x+')').empty();
 }
 
 function finished() {
+	// change orientation
+	white = -white;
+	// change who's turn it is
+	whiteTurn = !whiteTurn;
+	// clear move input
 	$('#input').val('');
-	turn = !turn;
+	// flip the board to opposite view
+	flipBoard();
+	// change turn indicator
 	if ($("#whatColor").html() == "white's") {
 		$("#whatColor").html("black's");
 	} else{
 		$("#whatColor").html("white's");
 	};
+	// work out the colors of you and them
+	if (whiteTurn) {
+		yourColor = 'rgb(255, 255, 255)';
+		theirColor = 'rgb(0, 0, 0)';
+	} else {
+		yourColor = 'rgb(0, 0, 0)';
+		theirColor = 'rgb(255, 255, 255)';
+	}
+}
+function flip() {
+	$('#first').toggle();
+	$('#second').toggle();
+}
+function flipBoard() {
+	for (var i = 1; i <= 8; i++) {
+		for (var j = 1; j <= 8; j++) {
+			var piece = $('table.board1 tr:nth-child('+j+') td:nth-child('+i+')').html();
+			var color = $('table.board1 tr:nth-child('+j+') td:nth-child('+i+')').css('color');
+			var k = 9-j;
+			var l = 9-i;
+			$('table.board2 tr:nth-child('+k+') td:nth-child('+l+')').html(piece);
+			$('table.board2 tr:nth-child('+k+') td:nth-child('+l+')').css('color', color);
+		}
+	}
 }
 /*
 a1

@@ -5,7 +5,9 @@ td {
 	text-align: center;
 	background-color: #90c3d4;
 }
-
+table {
+	float: none;
+}
 tr:nth-child(odd) td:nth-child(even) {
 	background-color: #4ba6c4;
 }
