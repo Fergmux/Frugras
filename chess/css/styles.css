@@ -1,4 +1,7 @@
 @font-face { font-family: Ringbearer; font-weight: bold; src: url("../fonts/ringbearer.medium.ttf");}
+body {
+	font-family:'Times New Roman';
+}
 td {
 	width: 20px;
 	height: 20px;
@@ -19,4 +22,7 @@ table.board tr:last-child td {
 }
 table.board tr td:last-child {
 	background-color: #ffffff;
+}
+button {
+	margin: 5px;
 }
